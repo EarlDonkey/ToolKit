@@ -1,0 +1,440 @@
+{
+  "categories": {
+    "web-server":     ["nginx", "apache", "iis", "caddy", "litespeed", "openresty", "gunicorn", "uwsgi", "cowboy", "jetty", "tomcat", "wildfly", "jboss", "weblogic", "lighttpd", "cherokee", "hiawatha", "abyss"],
+    "language":       ["php", "python", "ruby", "nodejs", "java", "dotnet", "go", "perl", "asp", "aspnet"],
+    "framework":      ["laravel", "symfony", "codeigniter", "django", "flask", "fastapi", "rails", "express", "nextjs", "nuxt", "gatsby", "spring", "struts", "grails", "play", "aspnet-mvc", "phoenix", "remix", "sveltekit", "astro"],
+    "cms":            ["wordpress", "drupal", "joomla", "craft", "ghost", "magento", "shopify", "wix", "squarespace", "typo3", "concrete5", "expressionengine", "grav", "statamic", "october", "modx", "sitecore", "umbraco", "kentico"],
+    "ecommerce":      ["woocommerce", "magento", "prestashop", "opencart", "shopify", "bigcommerce", "shopware", "oscommerce", "zencart"],
+    "analytics":      ["google-analytics", "google-tag-manager", "facebook-pixel", "hotjar", "mixpanel", "segment", "matomo", "piwik", "plausible", "fathom", "umami", "heap", "amplitude", "fullstory"],
+    "cdn":            ["cloudflare", "cloudfront", "fastly", "akamai", "stackpath", "sucuri", "bunny", "keycdn", "maxcdn", "incapsula", "imperva"],
+    "waf":            ["cloudflare", "sucuri", "wordfence", "modsecurity", "imperva", "f5-big-ip", "barracuda", "fortiweb", "aws-waf", "akamai-waf"],
+    "js-library":     ["jquery", "jquery-ui", "bootstrap", "foundation", "bulma", "tailwind", "materialize", "semantic-ui", "vue", "react", "angular", "svelte", "alpine", "htmx", "stimulus", "preact", "ember", "backbone", "mithril"],
+    "font":           ["font-awesome", "google-fonts", "typekit", "adobe-fonts", "glyphicons"],
+    "database-hint":  ["mysql", "postgresql", "mssql", "mongodb", "redis", "sqlite", "oracle", "mariadb"],
+    "payment":        ["stripe", "paypal", "braintree", "square", "adyen", "klarna", "authorize-net"],
+    "video":          ["youtube", "vimeo", "jwplayer", "videojs", "wistia", "brightcove"],
+    "marketing":      ["mailchimp", "hubspot", "salesforce", "marketo", "intercom", "drift", "zendesk", "freshdesk", "crisp", "livechat"],
+    "security":       ["recaptcha", "hcaptcha", "turnstile", "duo", "okta", "auth0", "onelogin"],
+    "e-learning":     ["moodle", "canvas-lms", "blackboard", "schoology", "edmodo", "google-classroom"],
+    "misc":           ["webpack", "vite", "parcel", "rollup", "babel", "web-components", "pwa", "amp"]
+  },
+  "signatures": [
+    {
+      "name": "nginx",
+      "category": "web-server",
+      "headers": {"server": "nginx(?:/([0-9.]+))?"},
+      "version_group": 1
+    },
+    {
+      "name": "apache",
+      "category": "web-server",
+      "headers": {"server": "apache(?:/([0-9.]+))?"},
+      "version_group": 1
+    },
+    {
+      "name": "iis",
+      "category": "web-server",
+      "headers": {"server": "microsoft-iis(?:/([0-9.]+))?"},
+      "version_group": 1
+    },
+    {
+      "name": "caddy",
+      "category": "web-server",
+      "headers": {"server": "caddy"}
+    },
+    {
+      "name": "litespeed",
+      "category": "web-server",
+      "headers": {"server": "litespeed"}
+    },
+    {
+      "name": "openresty",
+      "category": "web-server",
+      "headers": {"server": "openresty(?:/([0-9.]+))?"},
+      "version_group": 1
+    },
+    {
+      "name": "php",
+      "category": "language",
+      "headers": {"x-powered-by": "php(?:/([0-9.]+))?"},
+      "version_group": 1
+    },
+    {
+      "name": "aspnet",
+      "category": "language",
+      "headers": {"x-powered-by": "asp\\.net(?:\\s+([0-9.]+))?", "x-aspnet-version": "([0-9.]+)"},
+      "version_group": 1
+    },
+    {
+      "name": "express",
+      "category": "framework",
+      "headers": {"x-powered-by": "^express$"}
+    },
+    {
+      "name": "nextjs",
+      "category": "framework",
+      "headers": {"x-powered-by": "^next\\.js$"},
+      "html": ["<script[^>]+id=[\"']__NEXT_DATA__[\"']"]
+    },
+    {
+      "name": "nuxt",
+      "category": "framework",
+      "html": ["<script[^>]+id=[\"']__NUXT__[\"']", "window\\.__NUXT__"]
+    },
+    {
+      "name": "django",
+      "category": "framework",
+      "html": ["csrfmiddlewaretoken", "django"]
+    },
+    {
+      "name": "flask",
+      "category": "framework",
+      "headers": {"server": "werkzeug"}
+    },
+    {
+      "name": "rails",
+      "category": "framework",
+      "headers": {"x-powered-by": "phusion passenger"},
+      "html": ["csrf-param", "authenticity_token"]
+    },
+    {
+      "name": "laravel",
+      "category": "framework",
+      "html": ["laravel_session", "XSRF-TOKEN"]
+    },
+    {
+      "name": "symfony",
+      "category": "framework",
+      "html": ["sf-toolbar", "symfony"]
+    },
+    {
+      "name": "codeigniter",
+      "category": "framework",
+      "html": ["ci_session"]
+    },
+    {
+      "name": "spring",
+      "category": "framework",
+      "html": ["Whitelabel Error Page"],
+      "headers": {"x-application-context": ".*"}
+    },
+    {
+      "name": "struts",
+      "category": "framework",
+      "html": ["struts"]
+    },
+    {
+      "name": "wordpress",
+      "category": "cms",
+      "html": ["wp-content", "wp-includes", "wp-json", "/wp-login\\.php"],
+      "meta": {"generator": "wordpress\\s*([0-9.]+)?"},
+      "version_group": 1
+    },
+    {
+      "name": "drupal",
+      "category": "cms",
+      "html": ["drupal", "/sites/default/files", "drupalSettings"],
+      "meta": {"generator": "drupal\\s*([0-9.]+)?"},
+      "version_group": 1
+    },
+    {
+      "name": "joomla",
+      "category": "cms",
+      "html": ["/administrator/", "joomla", "com_content"],
+      "meta": {"generator": "joomla!?\\s*-?\\s*([0-9.]+)?"},
+      "version_group": 1
+    },
+    {
+      "name": "craft",
+      "category": "cms",
+      "html": ["craft_csrf_token", "CraftSessionId", "craft\\.js", "cp\\.css"]
+    },
+    {
+      "name": "ghost",
+      "category": "cms",
+      "html": ["ghost-url", "/ghost/", "ghost.org"]
+    },
+    {
+      "name": "magento",
+      "category": "cms",
+      "html": ["/skin/frontend/", "mage/cookies", "form_key"]
+    },
+    {
+      "name": "shopify",
+      "category": "cms",
+      "html": ["cdn\\.shopify\\.com", "shopify\\.com/checkouts"]
+    },
+    {
+      "name": "typo3",
+      "category": "cms",
+      "html": ["typo3", "t3-", "/typo3conf/"]
+    },
+    {
+      "name": "concrete5",
+      "category": "cms",
+      "html": ["/concrete/", "ccm_"]
+    },
+    {
+      "name": "grav",
+      "category": "cms",
+      "meta": {"generator": "grav"}
+    },
+    {
+      "name": "woocommerce",
+      "category": "ecommerce",
+      "html": ["woocommerce", "/wp-content/plugins/woocommerce"]
+    },
+    {
+      "name": "prestashop",
+      "category": "ecommerce",
+      "html": ["prestashop", "/modules/", "id_product"]
+    },
+    {
+      "name": "opencart",
+      "category": "ecommerce",
+      "html": ["opencart", "index\\.php\\?route="]
+    },
+    {
+      "name": "moodle",
+      "category": "e-learning",
+      "html": ["/moodle/", "M\\.cfg", "moodle"]
+    },
+    {
+      "name": "canvas-lms",
+      "category": "e-learning",
+      "html": ["canvas-lms", "instructure\\.com"]
+    },
+    {
+      "name": "blackboard",
+      "category": "e-learning",
+      "html": ["blackboard\\.com", "bb-", "ultra-ui"]
+    },
+    {
+      "name": "schoology",
+      "category": "e-learning",
+      "html": ["schoology\\.com"]
+    },
+    {
+      "name": "google-analytics",
+      "category": "analytics",
+      "html": ["googletagmanager\\.com/gtag/js", "google-analytics\\.com/analytics\\.js", "ga\\(['\"]create['\"]"],
+      "version_group": null
+    },
+    {
+      "name": "google-tag-manager",
+      "category": "analytics",
+      "html": ["googletagmanager\\.com/gtm\\.js", "GTM-[A-Z0-9]+"]
+    },
+    {
+      "name": "facebook-pixel",
+      "category": "analytics",
+      "html": ["connect\\.facebook\\.net/.*/fbevents\\.js", "fbq\\("]
+    },
+    {
+      "name": "hotjar",
+      "category": "analytics",
+      "html": ["static\\.hotjar\\.com", "hjid:"]
+    },
+    {
+      "name": "mixpanel",
+      "category": "analytics",
+      "html": ["cdn\\.mxpnl\\.com", "mixpanel\\.init"]
+    },
+    {
+      "name": "matomo",
+      "category": "analytics",
+      "html": ["matomo\\.js", "piwik\\.js", "_paq"]
+    },
+    {
+      "name": "plausible",
+      "category": "analytics",
+      "html": ["plausible\\.io/js"]
+    },
+    {
+      "name": "segment",
+      "category": "analytics",
+      "html": ["cdn\\.segment\\.com/analytics\\.js"]
+    },
+    {
+      "name": "jquery",
+      "category": "js-library",
+      "html": ["jquery[.-]([0-9]+\\.[0-9]+\\.[0-9]+)(?:\\.min)?\\.js"],
+      "version_group": 1
+    },
+    {
+      "name": "jquery-ui",
+      "category": "js-library",
+      "html": ["jquery-ui[.-]([0-9.]+)"],
+      "version_group": 1
+    },
+    {
+      "name": "bootstrap",
+      "category": "js-library",
+      "html": ["bootstrap[.-]([0-9.]+)(?:\\.min)?\\.(?:js|css)"],
+      "version_group": 1
+    },
+    {
+      "name": "tailwind",
+      "category": "js-library",
+      "html": ["tailwindcss", "tailwind\\.config"]
+    },
+    {
+      "name": "vue",
+      "category": "js-library",
+      "html": ["vue[.-]([0-9.]+)(?:\\.min)?\\.js", "v-cloak", "\\{\\{.*\\}\\}"],
+      "version_group": 1
+    },
+    {
+      "name": "react",
+      "category": "js-library",
+      "html": ["react[.-]([0-9.]+)(?:\\.min)?\\.js", "react-dom", "data-reactroot"]
+    },
+    {
+      "name": "angular",
+      "category": "js-library",
+      "html": ["angular[.-]([0-9.]+)(?:\\.min)?\\.js", "ng-app", "ng-controller"],
+      "version_group": 1
+    },
+    {
+      "name": "alpine",
+      "category": "js-library",
+      "html": ["alpinejs", "x-data=", "x-init="]
+    },
+    {
+      "name": "htmx",
+      "category": "js-library",
+      "html": ["htmx[.-]([0-9.]+)", "hx-get", "hx-post"],
+      "version_group": 1
+    },
+    {
+      "name": "font-awesome",
+      "category": "font",
+      "html": ["font-awesome", "fontawesome"]
+    },
+    {
+      "name": "google-fonts",
+      "category": "font",
+      "html": ["fonts\\.googleapis\\.com", "fonts\\.gstatic\\.com"]
+    },
+    {
+      "name": "cloudflare",
+      "category": "cdn",
+      "headers": {"server": "cloudflare", "cf-ray": ".*"}
+    },
+    {
+      "name": "cloudfront",
+      "category": "cdn",
+      "headers": {"x-amz-cf-id": ".*", "via": ".*CloudFront.*"}
+    },
+    {
+      "name": "fastly",
+      "category": "cdn",
+      "headers": {"x-served-by": ".*", "x-fastly-request-id": ".*", "via": ".*varnish.*"}
+    },
+    {
+      "name": "akamai",
+      "category": "cdn",
+      "headers": {"server": "AkamaiGHost", "x-akamai-transformed": ".*"}
+    },
+    {
+      "name": "sucuri",
+      "category": "waf",
+      "headers": {"server": "Sucuri/Cloudproxy", "x-sucuri-id": ".*"}
+    },
+    {
+      "name": "wordfence",
+      "category": "waf",
+      "html": ["wordfence"]
+    },
+    {
+      "name": "modsecurity",
+      "category": "waf",
+      "headers": {"server": ".*mod_security.*"}
+    },
+    {
+      "name": "recaptcha",
+      "category": "security",
+      "html": ["google\\.com/recaptcha", "g-recaptcha", "grecaptcha"]
+    },
+    {
+      "name": "hcaptcha",
+      "category": "security",
+      "html": ["hcaptcha\\.com", "h-captcha"]
+    },
+    {
+      "name": "cloudflare-turnstile",
+      "category": "security",
+      "html": ["challenges\\.cloudflare\\.com/turnstile"]
+    },
+    {
+      "name": "stripe",
+      "category": "payment",
+      "html": ["js\\.stripe\\.com", "stripe\\.elements", "data-stripe"]
+    },
+    {
+      "name": "paypal",
+      "category": "payment",
+      "html": ["paypal\\.com/sdk/js", "paypalobjects\\.com", "paypal-button"]
+    },
+    {
+      "name": "recaptcha-v3",
+      "category": "security",
+      "html": ["recaptcha/api\\.js\\?render="]
+    },
+    {
+      "name": "youtube",
+      "category": "video",
+      "html": ["youtube\\.com/embed", "youtube\\.com/iframe_api", "youtu\\.be"]
+    },
+    {
+      "name": "vimeo",
+      "category": "video",
+      "html": ["player\\.vimeo\\.com"]
+    },
+    {
+      "name": "jwplayer",
+      "category": "video",
+      "html": ["jwplayer", "jwplatform\\.com"]
+    },
+    {
+      "name": "videojs",
+      "category": "video",
+      "html": ["video\\.js", "videojs"]
+    },
+    {
+      "name": "webpack",
+      "category": "misc",
+      "html": ["webpack", "__webpack_require__", "webpackChunk"]
+    },
+    {
+      "name": "vite",
+      "category": "misc",
+      "html": ["/@vite/client", "vite\\.svg", "type=\"module\".*vite"]
+    },
+    {
+      "name": "mailchimp",
+      "category": "marketing",
+      "html": ["chimpstatic\\.com", "mailchimp\\.com", "mc\\.us\\d+\\.list-manage"]
+    },
+    {
+      "name": "hubspot",
+      "category": "marketing",
+      "html": ["hs-scripts\\.com", "hubspot\\.com", "hs-analytics"]
+    },
+    {
+      "name": "intercom",
+      "category": "marketing",
+      "html": ["widget\\.intercom\\.io", "intercomSettings"]
+    },
+    {
+      "name": "drift",
+      "category": "marketing",
+      "html": ["js\\.driftt\\.com", "drift\\.load"]
+    },
+    {
+      "name": "zendesk",
+      "category": "marketing",
+      "html": ["static\\.zdassets\\.com", "zendesk\\.com/embeddable"]
+    }
+  ]
+}

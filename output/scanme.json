@@ -1,0 +1,17 @@
+{
+  "target": "scanme.nmap.org",
+  "timestamp": "2026-09-10T17:43:50.597644Z",
+  "sources": [
+    "crt.sh",
+    "dns-bruteforce"
+  ],
+  "subdomains": [
+    {
+      "host": "scanme.nmap.org",
+      "ips": [
+        "45.33.32.156"
+      ]
+    }
+  ],
+  "count": 1
+}

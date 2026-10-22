@@ -1,0 +1,618 @@
+{
+  "target": "tesla.com",
+  "timestamp": "2026-09-10T17:32:10.242132Z",
+  "sources": [
+    "crt.sh",
+    "dns-bruteforce"
+  ],
+  "subdomains": [
+    {
+      "host": "accounts.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "akamai-apigateway-vehicleextinfogw-prdsvc-st.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "ams13-gpgw1.tesla.com",
+      "ips": [
+        "199.120.50.30"
+      ]
+    },
+    {
+      "host": "apac-cppm.tesla.com",
+      "ips": [
+        "2.18.16.97"
+      ]
+    },
+    {
+      "host": "apf-api.eng.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.27.25"
+      ]
+    },
+    {
+      "host": "apf-api.prd.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.31.30"
+      ]
+    },
+    {
+      "host": "apps.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "assets-ir.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "atom.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "auth-stage.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "auth.eng.usw.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.14.3"
+      ]
+    },
+    {
+      "host": "auth.prd.euw1.vn.cloud.tesla.com",
+      "ips": [
+        "18.203.70.200"
+      ]
+    },
+    {
+      "host": "auth.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "autodiscover.tesla.com",
+      "ips": [
+        "40.104.21.56",
+        "40.104.20.24",
+        "40.104.20.56",
+        "40.104.21.40"
+      ]
+    },
+    {
+      "host": "bettertime-stage.tesla.com",
+      "ips": [
+        "23.220.231.103"
+      ]
+    },
+    {
+      "host": "bettertime.tesla.com",
+      "ips": [
+        "23.213.219.51"
+      ]
+    },
+    {
+      "host": "bi.tesla.com",
+      "ips": [
+        "2.18.16.211"
+      ]
+    },
+    {
+      "host": "billing.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "bolt.tesla.com",
+      "ips": [
+        "23.209.216.70"
+      ]
+    },
+    {
+      "host": "business.tesla.com",
+      "ips": [
+        "23.209.216.70"
+      ]
+    },
+    {
+      "host": "cdn-design.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "charging-transparency.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "courses.tesla.com",
+      "ips": [
+        "23.209.216.70"
+      ]
+    },
+    {
+      "host": "developer.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "dex.ops.bn.na.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.14.98"
+      ]
+    },
+    {
+      "host": "echo.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "ehs.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "emails.tesla.com",
+      "ips": [
+        "13.111.18.27"
+      ]
+    },
+    {
+      "host": "engage.tesla.com",
+      "ips": [
+        "18.238.192.73",
+        "18.238.192.120",
+        "18.238.192.66",
+        "18.238.192.47"
+      ]
+    },
+    {
+      "host": "epc.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "events.tesla.com",
+      "ips": [
+        "13.111.47.195"
+      ]
+    },
+    {
+      "host": "feedback.tesla.com",
+      "ips": [
+        "199.120.34.33"
+      ]
+    },
+    {
+      "host": "fleet-api.eng.na.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.14.26"
+      ]
+    },
+    {
+      "host": "fleet-api.prd.na.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.14.14"
+      ]
+    },
+    {
+      "host": "gateway-public-telemetry-eng5a-fleet.eng.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.16.72"
+      ]
+    },
+    {
+      "host": "gateway-public-telemetry-eng5b-fleet.eng.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.16.104"
+      ]
+    },
+    {
+      "host": "gateway-public-telemetry-eng5c-fleet.eng.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.16.114"
+      ]
+    },
+    {
+      "host": "gateway-public-telemetry-eng5d-fleet.eng.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.14.115"
+      ]
+    },
+    {
+      "host": "gateway-public-telemetry-prd5a-fleet.prd.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.16.124"
+      ]
+    },
+    {
+      "host": "gateway-public-telemetry-prd5b-fleet.prd.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.16.125"
+      ]
+    },
+    {
+      "host": "gateway-public-telemetry-prd5c-fleet.prd.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.14.126"
+      ]
+    },
+    {
+      "host": "gateway-public-telemetry-prd5d-fleet.prd.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.14.130"
+      ]
+    },
+    {
+      "host": "grid.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "hub.tesla.com",
+      "ips": [
+        "2.18.16.211"
+      ]
+    },
+    {
+      "host": "ideas.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "inside.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "ir.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "kronos.tesla.com",
+      "ips": [
+        "23.209.216.70"
+      ]
+    },
+    {
+      "host": "link.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "links.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "livestream.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "marketing.tesla.com",
+      "ips": [
+        "13.111.47.196"
+      ]
+    },
+    {
+      "host": "media-server-api.eng.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.16.55"
+      ]
+    },
+    {
+      "host": "media-server-api.prd.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.16.56"
+      ]
+    },
+    {
+      "host": "media-server-dev-api.eng.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.14.55"
+      ]
+    },
+    {
+      "host": "media-server-qr-dev.eng.america.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.16.55"
+      ]
+    },
+    {
+      "host": "media-server-qr.eng.america.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.16.55"
+      ]
+    },
+    {
+      "host": "media-server-qr.prd.america.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.16.56"
+      ]
+    },
+    {
+      "host": "meet.tesla.com",
+      "ips": [
+        "209.133.79.61"
+      ]
+    },
+    {
+      "host": "mfa.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "mobile-links.eng.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.16.6"
+      ]
+    },
+    {
+      "host": "mobile-links.prd.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.16.63"
+      ]
+    },
+    {
+      "host": "mobile-ops-links.prd.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.16.64"
+      ]
+    },
+    {
+      "host": "mobile.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "myapps.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "npm.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "ownerapi-alpha.prd.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.14.26"
+      ]
+    },
+    {
+      "host": "ownerapi-api.eng.euw1.vn.cloud.tesla.com",
+      "ips": [
+        "52.211.120.0"
+      ]
+    },
+    {
+      "host": "partners.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "parts.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "pay.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "people.tesla.com",
+      "ips": [
+        "23.209.216.70"
+      ]
+    },
+    {
+      "host": "pm-bounces.tesla.com",
+      "ips": [
+        "3.23.189.80",
+        "3.146.244.28",
+        "3.130.203.6"
+      ]
+    },
+    {
+      "host": "profile.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "s3.eng.na.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.16.29"
+      ]
+    },
+    {
+      "host": "s3.prd.na.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.14.64"
+      ]
+    },
+    {
+      "host": "schedule.tesla.com",
+      "ips": [
+        "23.209.216.70"
+      ]
+    },
+    {
+      "host": "sentry-api.ops.na.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.14.105"
+      ]
+    },
+    {
+      "host": "service.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "share.tesla.com",
+      "ips": [
+        "205.234.27.221"
+      ]
+    },
+    {
+      "host": "shop.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "signaling-robotics.eng.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.16.53"
+      ]
+    },
+    {
+      "host": "sso.tesla.com",
+      "ips": [
+        "23.209.216.70"
+      ]
+    },
+    {
+      "host": "static.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "stream.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "tesla-hermes-snapshot-motors-eng.s3.eng.na.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.16.6"
+      ]
+    },
+    {
+      "host": "tesla-hermes-snapshot-motors.s3.prd.na.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.16.63"
+      ]
+    },
+    {
+      "host": "tesla.com",
+      "ips": [
+        "2.18.55.207",
+        "2.18.50.207",
+        "2.18.48.207",
+        "2.18.51.207",
+        "23.40.100.207",
+        "2.18.54.207",
+        "23.7.244.207",
+        "2.18.53.207",
+        "2.18.52.207",
+        "2.18.49.207"
+      ]
+    },
+    {
+      "host": "toolbox.tesla.com",
+      "ips": [
+        "23.209.216.70"
+      ]
+    },
+    {
+      "host": "track.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "tracking.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    },
+    {
+      "host": "tripx-alpha.prd.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.16.63"
+      ]
+    },
+    {
+      "host": "tripx.prd.vn.cloud.tesla.com",
+      "ips": [
+        "66.17.16.62"
+      ]
+    },
+    {
+      "host": "vehicle-files.eng.euw1.vn.cloud.tesla.com",
+      "ips": [
+        "203.133.18.123",
+        "203.133.18.73"
+      ]
+    },
+    {
+      "host": "vehicle-files.prd.euw1.vn.cloud.tesla.com",
+      "ips": [
+        "23.199.34.107",
+        "23.199.34.130"
+      ]
+    },
+    {
+      "host": "vote.tesla.com",
+      "ips": [
+        "23.209.216.70"
+      ]
+    },
+    {
+      "host": "vpn2.tesla.com",
+      "ips": [
+        "8.47.24.215"
+      ]
+    },
+    {
+      "host": "www.tesla.com",
+      "ips": [
+        "61.71.84.60"
+      ]
+    }
+  ],
+  "count": 98
+}

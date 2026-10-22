@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Recon Dossier — akads.org</title>
+<style>
+    * { box-sizing: border-box; }
+    body {
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        background: #0b0f19; color: #e2e8f0;
+        margin: 0; padding: 30px; line-height: 1.5;
+    }
+    .wrap { max-width: 1300px; margin: 0 auto; }
+    header {
+        background: linear-gradient(135deg, #1e293b, #0f172a);
+        border: 1px solid #334155; border-radius: 12px;
+        padding: 30px; margin-bottom: 30px;
+    }
+    h1 { margin: 0 0 10px 0; color: #38bdf8; font-size: 2.1em; }
+    .kind-badge {
+        display: inline-block; padding: 2px 10px; border-radius: 4px;
+        background: #0369a1; color: #e0f2fe; font-size: 0.6em;
+        vertical-align: middle; margin-left: 12px; text-transform:
+        uppercase; letter-spacing: 1px;
+    }
+    .meta { color: #94a3b8; font-size: 0.95em; }
+    .meta span { margin-right: 20px; }
+    .meta strong { color: #cbd5e1; }
+
+    section.summary {
+        background: #1e293b; border: 1px solid #334155;
+        border-radius: 12px; padding: 25px; margin-bottom: 30px;
+    }
+    section.summary h2 { margin-top: 0; }
+
+    .sum-row {
+        display: grid; grid-template-columns: 220px 1fr;
+        gap: 15px; padding: 8px 12px;
+        border-bottom: 1px solid #334155; font-size: 0.95em;
+    }
+    .sum-row:last-child { border-bottom: none; }
+    .sum-key { color: #94a3b8; font-family: monospace; font-size: 0.9em; }
+    .sum-val { color: #cbd5e1; }
+    .sum-failed .sum-val { color: #fca5a5; }
+
+    section.module {
+        background: #1e293b; border: 1px solid #334155;
+        border-radius: 12px; padding: 25px; margin-bottom: 20px;
+    }
+    section.module h2 {
+        margin: 0 0 15px 0; font-size: 1.4em; color: #f1f5f9;
+        display: flex; align-items: center; gap: 12px;
+    }
+    section.module h2 .status {
+        font-size: 0.7em; padding: 3px 10px; border-radius: 4px;
+        font-family: monospace; font-weight: 700;
+    }
+    section.module h2 .status-ok { background: #065f46; color: #d1fae5; }
+    section.module h2 .status-fail { background: #7f1d1d; color: #fecaca; }
+
+    pre, .code {
+        background: #0f172a; border: 1px solid #1e293b;
+        padding: 12px; border-radius: 6px; overflow-x: auto;
+        font-family: 'Consolas', 'Monaco', monospace;
+        font-size: 0.85em; color: #cbd5e1;
+        white-space: pre-wrap; word-break: break-word;
+        max-height: 500px; overflow-y: auto;
+    }
+    .kv-grid {
+        display: grid; grid-template-columns: 200px 1fr;
+        gap: 6px 15px; font-size: 0.9em; margin-bottom: 12px;
+    }
+    .kv-grid .k { color: #94a3b8; }
+    .kv-grid .v { color: #cbd5e1; word-break: break-all; }
+
+    .section-title {
+        color: #94a3b8; font-size: 0.82em; text-transform: uppercase;
+        letter-spacing: 1px; margin: 20px 0 8px 0; font-weight: 700;
+    }
+    .chip {
+        display: inline-block;
+        background: #0f172a; border: 1px solid #334155;
+        padding: 4px 10px; border-radius: 999px;
+        font-size: 0.85em; color: #cbd5e1;
+        font-family: monospace; margin: 3px 3px 3px 0;
+    }
+    .chip.sev-critical { background: #450a0a; border-color: #dc2626; }
+    .chip.sev-high     { background: #431407; border-color: #ea580c; }
+    .chip.sev-medium   { background: #422006; border-color: #eab308; }
+    .chip.sev-low      { background: #082f49; border-color: #0284c7; }
+
+    footer {
+        text-align: center; color: #475569; font-size: 0.85em;
+        margin-top: 40px; padding-top: 20px;
+        border-top: 1px solid #334155;
+    }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+    <h1>Recon Dossier<span class="kind-badge">domain</span></h1>
+    <div class="meta">
+        <span><strong>Target:</strong> akads.org</span>
+        <span><strong>Started:</strong> 2026-10-22T01:23:02 UTC</span>
+        <span><strong>Elapsed:</strong> 283.93s</span>
+        <span><strong>Mode:</strong> sequential</span>
+        
+    </div>
+</header>
+
+<section class="summary">
+    <h2>Module Summary</h2>
+    <div class='sum-row sum-ok'><span class='sum-key'>tech_fingerprint</span><span class='sum-val'>1 technologies detected</span></div><div class='sum-row sum-ok'><span class='sum-key'>web_intel</span><span class='sum-val'>0 CSP host(s), 0 well-known file(s)</span></div><div class='sum-row sum-ok'><span class='sum-key'>cms_fingerprint</span><span class='sum-val'>none</span></div><div class='sum-row sum-ok'><span class='sum-key'>leak_check</span><span class='sum-val'>4 path(s), 0 public</span></div><div class='sum-row sum-ok'><span class='sum-key'>ct_logs</span><span class='sum-val'>12 cert(s), 3 names</span></div><div class='sum-row sum-ok'><span class='sum-key'>tls_cert</span><span class='sum-val'>CN=?, 0 SAN(s)</span></div><div class='sum-row sum-ok'><span class='sum-key'>whois</span><span class='sum-val'>Cloudflare, Inc.</span></div><div class='sum-row sum-ok'><span class='sum-key'>asn</span><span class='sum-val'>AS13335</span></div><div class='sum-row sum-ok'><span class='sum-key'>historical</span><span class='sum-val'>10 archived URL(s), 2 host(s)</span></div><div class='sum-row sum-ok'><span class='sum-key'>js_analysis</span><span class='sum-val'>4 JS file(s), 12 API path(s), 0 secret(s)</span></div><div class='sum-row sum-ok'><span class='sum-key'>emails</span><span class='sum-val'>0 email(s)</span></div><div class='sum-row sum-ok'><span class='sum-key'>cloud_enum</span><span class='sum-val'>0 public, 0 other</span></div><div class='sum-row sum-ok'><span class='sum-key'>social</span><span class='sum-val'>0 profile(s)</span></div><div class='sum-row sum-ok'><span class='sum-key'>subdomain_takeover</span><span class='sum-val'></span></div><div class='sum-row sum-ok'><span class='sum-key'>openapi</span><span class='sum-val'></span></div><div class='sum-row sum-failed'><span class='sum-key'>cors</span><span class='sum-val'>module not installed: No module named &#x27;recon.cors&#x27;</span></div>
+</section>
+
+
+    <section class="module">
+        <h2>
+            tech_fingerprint — Technology stack
+            <span class="status status-ok">OK (0.5s)</span>
+        </h2>
+        <div class='kv-grid'><div class='k'>cdn</div><div class='v'>cloudflare </div></div>
+    </section>
+    
+    <section class="module">
+        <h2>
+            web_intel — Web intelligence (headers, CSP, robots, well-known)
+            <span class="status status-ok">OK (2.17s)</span>
+        </h2>
+        <div class='kv-grid'><div class='k'>Final URL:</div><div class='v'>https://akads.org</div><div class='k'>Status:</div><div class='v'>200</div><div class='k'>Title:</div><div class='v'>Akads Session</div></div><div class='section-title'>Security headers</div><div class='kv-grid'><div class='k'>missing</div><div class='v'>strict-transport-security</div><div class='k'>missing</div><div class='v'>content-security-policy</div><div class='k'>missing</div><div class='v'>content-security-policy-report-only</div><div class='k'>missing</div><div class='v'>x-frame-options</div><div class='k'>missing</div><div class='v'>x-content-type-options</div><div class='k'>missing</div><div class='v'>referrer-policy</div><div class='k'>missing</div><div class='v'>permissions-policy</div><div class='k'>missing</div><div class='v'>cross-origin-opener-policy</div><div class='k'>missing</div><div class='v'>cross-origin-embedder-policy</div><div class='k'>missing</div><div class='v'>cross-origin-resource-policy</div><div class='k'>missing</div><div class='v'>x-xss-protection</div><div class='k'>missing</div><div class='v'>x-permitted-cross-domain-policies</div><div class='k'>missing</div><div class='v'>expect-ct</div></div><div class='section-title'>Favicon</div><div class='kv-grid'><div class='k'>URL</div><div class='v'>https://akads.org/favicon.ico</div><div class='k'>Hash</div><div class='v'>1246267011</div></div>
+    </section>
+    
+    <section class="module">
+        <h2>
+            cms_fingerprint — CMS detection
+            <span class="status status-ok">OK (0.34s)</span>
+        </h2>
+        <div class='kv-grid'><div class='k'>Result:</div><div class='v'>no CMS identified</div></div>
+    </section>
+    
+    <section class="module">
+        <h2>
+            leak_check — Exposed sensitive paths
+            <span class="status status-ok">OK (9.67s)</span>
+        </h2>
+        <div class='kv-grid'><div class='k'>HTTP 403</div><div class='v'>/wp-config.php (4910 bytes)</div><div class='k'>HTTP 403</div><div class='v'>/wp-config.php.bak (0 bytes)</div><div class='k'>HTTP 403</div><div class='v'>/wp-config.php.old (4910 bytes)</div><div class='k'>HTTP 403</div><div class='v'>/wp-config.php~ (4910 bytes)</div></div>
+    </section>
+    
+    <section class="module">
+        <h2>
+            ct_logs — Certificate transparency
+            <span class="status status-ok">OK (15.98s)</span>
+        </h2>
+        <div class='kv-grid'><div class='k'>Total certs:</div><div class='v'>12</div><div class='k'>Unique names:</div><div class='v'>3</div><div class='k'>Wildcards:</div><div class='v'>—</div></div><div class='section-title'>Names</div><span class='chip '>akads.org</span><span class='chip '>api.akads.org</span><span class='chip '>www.akads.org</span>
+    </section>
+    
+    <section class="module">
+        <h2>
+            tls_cert — TLS certificate
+            <span class="status status-ok">OK (0.43s)</span>
+        </h2>
+        <div class='kv-grid'></div>
+    </section>
+    
+    <section class="module">
+        <h2>
+            whois — Domain WHOIS + IP RDAP
+            <span class="status status-ok">OK (3.44s)</span>
+        </h2>
+        <div class='kv-grid'><div class='k'>registrar:</div><div class='v'>Cloudflare, Inc.</div><div class='k'>created:</div><div class='v'>2026-09-14T14:20:28Z</div><div class='k'>updated:</div><div class='v'>2026-09-19T14:21:09Z</div><div class='k'>expires:</div><div class='v'>2027-09-14T14:20:28Z</div><div class='k'>Nameservers:</div><div class='v'>deborah.ns.cloudflare.com, mack.ns.cloudflare.com</div></div>
+    </section>
+    
+    <section class="module">
+        <h2>
+            asn — ASN / netblocks
+            <span class="status status-ok">OK (1.9s)</span>
+        </h2>
+        <div class='kv-grid'><div class='k'>ASN:</div><div class='v'>AS13335</div><div class='k'>Name:</div><div class='v'>CLOUDFLARENET - Cloudflare, Inc.</div><div class='k'>Prefix:</div><div class='v'>104.21.16.0/20</div></div><div class='section-title'>IPv4 prefixes</div><span class='chip '>172.70.233.0/24</span><span class='chip '>162.158.221.0/24</span><span class='chip '>104.23.238.0/24</span><span class='chip '>104.29.167.0/24</span><span class='chip '>194.34.82.0/24</span><span class='chip '>8.28.213.0/24</span><span class='chip '>104.29.147.0/24</span><span class='chip '>172.66.176.0/24</span><span class='chip '>8.45.146.0/24</span><span class='chip '>104.27.48.0/20</span><span class='chip '>172.69.155.0/24</span><span class='chip '>172.70.126.0/24</span><span class='chip '>138.249.21.0/24</span><span class='chip '>172.68.109.0/24</span><span class='chip '>172.70.135.0/24</span><span class='chip '>104.23.244.0/24</span><span class='chip '>172.68.148.0/24</span><span class='chip '>172.71.195.0/24</span><span class='chip '>206.206.104.0/23</span><span class='chip '>172.71.7.0/24</span><span class='chip '>172.69.253.0/24</span><span class='chip '>161.115.162.0/24</span><span class='chip '>188.114.100.0/24</span><span class='chip '>199.7.70.0/24</span><span class='chip '>172.69.220.0/24</span><span class='chip '>172.71.247.0/24</span><span class='chip '>87.85.66.0/24</span><span class='chip '>172.71.179.0/24</span><span class='chip '>144.56.84.0/24</span><span class='chip '>23.227.48.0/23</span><span class='chip '>172.70.181.0/24</span><span class='chip '>172.70.56.0/24</span><span class='chip '>172.65.240.0/20</span><span class='chip '>162.159.10.0/24</span><span class='chip '>172.68.16.0/24</span><span class='chip '>162.158.186.0/24</span><span class='chip '>172.69.213.0/24</span><span class='chip '>173.245.59.0/24</span><span class='chip '>172.70.88.0/24</span><span class='chip '>162.158.244.0/24</span>
+    </section>
+    
+    <section class="module">
+        <h2>
+            historical — Wayback + URLScan
+            <span class="status status-ok">OK (121.04s)</span>
+        </h2>
+        <div class='kv-grid'><div class='k'>Wayback URLs:</div><div class='v'>10</div><div class='k'>URLScan results:</div><div class='v'>0</div></div><div class='section-title'>Historical hosts</div><span class='chip '>akads.org</span><span class='chip '>www.akads.org</span>
+    </section>
+    
+    <section class="module">
+        <h2>
+            js_analysis — JS files + API endpoints
+            <span class="status status-ok">OK (2.36s)</span>
+        </h2>
+        <div class='kv-grid'><div class='k'>Files analyzed:</div><div class='v'>4</div><div class='k'>API paths:</div><div class='v'>12</div><div class='k'>Secrets:</div><div class='v'>0</div></div><div class='section-title'>API paths</div><span class='chip '>/api/auth/token</span><span class='chip '>/api/me</span><span class='chip '>/api/me/language</span><span class='chip '>/api/review-audit/check</span><span class='chip '>/api/review-audit/words</span><span class='chip '>/api/review/classes</span><span class='chip '>/api/review/events</span><span class='chip '>/api/review/runs</span><span class='chip '>/api/review/words</span><span class='chip '>/api/seb/bypass</span><span class='chip '>/api/seb/exchange</span><span class='chip '>/api/seb/launch</span>
+    </section>
+    
+    <section class="module">
+        <h2>
+            emails — Email addresses
+            <span class="status status-ok">OK (71.03s)</span>
+        </h2>
+        <div class='kv-grid'><div class='k'>Result:</div><div class='v'>no emails</div></div>
+    </section>
+    
+    <section class="module">
+        <h2>
+            cloud_enum — Public cloud buckets
+            <span class="status status-ok">OK (45.67s)</span>
+        </h2>
+        <div class='kv-grid'><div class='k'>Result:</div><div class='v'>no buckets found</div></div>
+    </section>
+    
+    <section class="module">
+        <h2>
+            social — Social profiles
+            <span class="status status-ok">OK (4.81s)</span>
+        </h2>
+        <div class='kv-grid'><div class='k'>Result:</div><div class='v'>no social profiles</div></div>
+    </section>
+    
+    <section class="module">
+        <h2>
+            subdomain_takeover — Subdomain takeover scan
+            <span class="status status-ok">OK (2.87s)</span>
+        </h2>
+        <pre>{
+  &quot;domain&quot;: &quot;akads.org&quot;,
+  &quot;candidates&quot;: [
+    &quot;akads.org&quot;,
+    &quot;api.akads.org&quot;,
+    &quot;leaderboards.akads.org&quot;,
+    &quot;www.akads.org&quot;
+  ],
+  &quot;scanned&quot;: 4,
+  &quot;vulnerable&quot;: [],
+  &quot;potential&quot;: [],
+  &quot;results&quot;: [
+    {
+      &quot;host&quot;: &quot;akads.org&quot;,
+      &quot;cname_chain&quot;: [],
+      &quot;service&quot;: null,
+      &quot;vulnerable&quot;: false,
+      &quot;evidence&quot;: null,
+      &quot;status&quot;: null,
+      &quot;final_url&quot;: null,
+      &quot;error&quot;: null
+    },
+    {
+      &quot;host&quot;: &quot;api.akads.org&quot;,
+      &quot;cname_chain&quot;: [],
+      &quot;service&quot;: null,
+      &quot;vulnerable&quot;: false,
+      &quot;evidence&quot;: null,
+      &quot;status&quot;: null,
+      &quot;final_url&quot;: null,
+      &quot;error&quot;: null
+    },
+    {
+      &quot;host&quot;: &quot;leaderboards.akads.org&quot;,
+      &quot;cname_chain&quot;: [],
+      &quot;service&quot;: null,
+      &quot;vulnerable&quot;: false,
+      &quot;evidence&quot;: null,
+      &quot;status&quot;: null,
+      &quot;final_url&quot;: null,
+      &quot;error&quot;: null
+    },
+    {
+      &quot;host&quot;: &quot;www.akads.org&quot;,
+      &quot;cname_chain&quot;: [],
+      &quot;service&quot;: null,
+      &quot;vulnerable&quot;: false,
+      &quot;evidence&quot;: null,
+      &quot;status&quot;: null,
+      &quot;final_url&quot;: null,
+      &quot;error&quot;: null
+    }
+  ],
+  &quot;elapsed&quot;: 2.45,
+  &quot;errors&quot;: []
+}</pre>
+    </section>
+    
+    <section class="module">
+        <h2>
+            openapi — OpenAPI / Swagger discovery
+            <span class="status status-ok">OK (1.61s)</span>
+        </h2>
+        <pre>{
+  &quot;target&quot;: &quot;https://akads.org&quot;,
+  &quot;specs&quot;: [],
+  &quot;total_endpoints&quot;: 0,
+  &quot;total_schemas&quot;: 0,
+  &quot;all_servers&quot;: [],
+  &quot;all_endpoints&quot;: [],
+  &quot;errors&quot;: [],
+  &quot;elapsed&quot;: 1.54
+}</pre>
+    </section>
+    
+        <section class="module">
+            <h2>
+                cors — CORS misconfiguration
+                <span class="status status-fail">FAILED</span>
+            </h2>
+            <div class="kv-grid">
+                <div class="k">Error:</div>
+                <div class="v">module not installed: No module named &#x27;recon.cors&#x27;</div>
+            </div>
+            <pre>Traceback (most recent call last):
+  File &quot;C:\Users\user\Downloads\ToolKit\recon\investigate.py&quot;, line 185, in _load_and_run
+    mod = __import__(module_path, fromlist=[&quot;run&quot;])
+ModuleNotFoundError: No module named &#x27;recon.cors&#x27;
+</pre>
+        </section>
+        
+
+<footer>
+    Generated by toolkit recon · 2026-10-22T01:27:46 UTC
+</footer>
+
+</div>
+</body>
+</html>
